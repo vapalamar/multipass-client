@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   private currentLock;
 
   user = {
-    name: 'Taisia',
+    firstName: 'Taisia',
     keyLockData: [
       {
         key: {

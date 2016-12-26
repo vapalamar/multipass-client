@@ -9,7 +9,9 @@ import { AuthenticationService } from './../auth/authentication.service';
 })
 export class LoginComponent implements OnInit {
   model: any = {};
+  newModel: any = {};
   loading = false;
+  existingUser = true;
   error = '';
 
   constructor(
@@ -28,7 +30,21 @@ export class LoginComponent implements OnInit {
         if (res === true) {
           this.router.navigate(['/']);
         } else {
-          this.error = 'Username or password is incorrect';
+          this.error = 'Username or password is incorrect.';
+          this.loading = false;
+        }
+      });
+  }
+
+  signUp() {
+    this.loading = true;
+    this.authService.signUp(this.newModel.firstName, this.newModel.lastName, this.newModel.username, this.newModel.password)
+      .subscribe(res => {
+        if (res === true) {
+          this.existingUser = true;
+          this.loading = false;
+        } else {
+          this.error = 'Incorrect data, please try again.';
           this.loading = false;
         }
       });
