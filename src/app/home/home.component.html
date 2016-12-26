@@ -1,5 +1,9 @@
 <div>
-  <h1>Home</h1>
-  <p>You're logged in with JWT!!</p>
-  <p><a [routerLink]="['/login']">Logout</a></p>
+  <h2>Hello, {{user.name}} <p><a [routerLink]="['/login']">Logout</a></p></h2>
+
+  <h2>Lock Manager</h2>
+  <div *ngFor="let item of user.keyLockData" class="well">
+    <p>Key #{{item.key.id}}</p>
+    <lock-manager [data]="item.locks"></lock-manager>
+  </div>
 </div>
