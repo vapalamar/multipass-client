@@ -4,6 +4,24 @@
   <h2>Lock Manager</h2>
   <div *ngFor="let item of user.keyLockData" class="well">
     <p>Key #{{item.key.id}}</p>
-    <lock-manager [data]="item.locks"></lock-manager>
+    <lock-manager [data]="item.locks" (lockDelete)="onLockDelete($event)"></lock-manager>
+  </div>
+
+  <div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Confirm the action</h4>
+        </div>
+        <div class="modal-body">
+          Are you sure?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="onLockDeleteCancel()">No</button>
+          <button type="button" class="btn btn-default" (click)="onLockDeleteConfirm()">Yes</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

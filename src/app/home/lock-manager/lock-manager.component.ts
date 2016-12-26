@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, Input } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { LockManagerTableComponent } from './lock-manager-table.component';
 
 @Component({
@@ -7,6 +7,7 @@ import { LockManagerTableComponent } from './lock-manager-table.component';
 })
 export class LockManagerComponent implements AfterViewInit {
   @Input() data;
+  @Output() lockDelete = new EventEmitter();
   @ViewChild(LockManagerTableComponent) locksTable: LockManagerTableComponent;
 
   currentLock;
@@ -21,7 +22,11 @@ export class LockManagerComponent implements AfterViewInit {
 
     this.locksTable.deleteClick
       .subscribe(lock => {
-        console.log(lock);
-      })
+        this.lockDelete.emit(lock);
+      });
+  }
+
+  deleteLock(lock) {
+    this.locksTable.source.remove(lock.data);
   }
 }

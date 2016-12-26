@@ -13,9 +13,6 @@ export class LockManagerTableComponent {
 
   settings = {
     columns: {
-      id: {
-        title: 'Lock ID'
-      },
       name: {
         title: 'For'
       },
