@@ -8,6 +8,7 @@ import { ModalModule } from 'ng2-bootstrap/modal';
 import { HomeComponent }   from './home.component';
 import { LockManagerTableComponent } from './lock-manager/lock-manager-table.component';
 import { LockManagerComponent } from './lock-manager/lock-manager.component';
+import { LockManagerService } from './lock-manager/lock-manager.service';
 
 @NgModule({
   imports: [
@@ -27,6 +28,6 @@ import { LockManagerComponent } from './lock-manager/lock-manager.component';
     LockManagerComponent,
     LockManagerTableComponent
   ],
-  providers: [],
+  providers: [LockManagerService],
 })
 export class HomeModule { }

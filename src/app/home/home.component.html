@@ -1,10 +1,9 @@
 <div>
-  <h2>Hello, {{user.firstName}} <p><a [routerLink]="['/login']">Logout</a></p></h2>
+  <h2>Hello, {{userData.name}} <p><a [routerLink]="['/login']">Logout</a></p></h2>
 
   <h2>Lock Manager</h2>
-  <div *ngFor="let item of user.keyLockData" class="well">
-    <p>Key #{{item.key.id}}</p>
-    <lock-manager [data]="item.locks" (lockDelete)="onLockDelete($event)"></lock-manager>
+  <div class="well big-font">
+    <lock-manager [data]="userData.locks" (lockDelete)="onLockDelete($event)" (lockAdd)="onLockAdd($event)"></lock-manager>
   </div>
 
   <div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}"

@@ -13,11 +13,11 @@ export class AuthenticationService  {
     this.token = currentUser && currentUser.token;
   }
 
-  signUp(firstName: string, lastName: string, email: string, pass: string): Observable<boolean> {
-    const url = 'http://localhost:8080/services/auth/signup';
+  signUp(firstName: string, lastName: string, email: string, username: string, pass: string): Observable<boolean> {
+    const url = 'https://multipass-auth.herokuapp.com/services/auth/signup';
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const opts = new RequestOptions({ headers: headers });
-    const data = JSON.stringify({ firstName, lastName, email, pass });
+    const data = JSON.stringify({ firstName, lastName, email, nickname: username, pass });
 
     return this.http.post(url, data, opts)
       .map((res: Response) => {
@@ -31,11 +31,11 @@ export class AuthenticationService  {
       });
   }
 
-  login(email: string, pass: string): Observable<boolean> {
-    const url = 'http://localhost:8080/services/auth/login';
+  login(nickname: string, pass: string): Observable<boolean> {
+    const url = 'https://multipass-auth.herokuapp.com/services/auth/login';
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const opts = new RequestOptions({ headers: headers });
-    const data = JSON.stringify({ email, pass });
+    const data = JSON.stringify({ nickname, pass });
 
     return this.http.post(url, data, opts)
       .map((res: Response) => {
@@ -45,7 +45,7 @@ export class AuthenticationService  {
           this.token = token;
           this.user = user;
 
-          localStorage.setItem('currentUser', JSON.stringify({ email: user.email, token }));
+          localStorage.setItem('currentUser', JSON.stringify({ nickname: user.nickname, token }));
 
           return true;
         }

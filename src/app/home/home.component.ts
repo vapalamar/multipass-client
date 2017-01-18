@@ -1,7 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModalDirective } from 'ng2-bootstrap/modal';
+import { Observable } from 'rxjs';
 import { LockManagerComponent } from './lock-manager/lock-manager.component';
+import { LockManagerService } from './lock-manager/lock-manager.service';
+
+interface UserData {
+  name: string,
+  keys?: Array<any>,
+  locks?: Array<any>
+}
 
 @Component({
   selector: 'home',
@@ -11,44 +19,36 @@ export class HomeComponent implements OnInit {
   @ViewChild('staticModal') modal: ModalDirective;
   @ViewChild(LockManagerComponent) lockManager: LockManagerComponent;
   private currentLock;
+  private userData: UserData = <UserData>Object();
 
-  user = {
-    firstName: 'Taisia',
-    keyLockData: [
-      {
-        key: {
-          id: 1
-        },
-        locks: [
-          {
-            id: 1,
-            name: 'Car',
-            users: 'Bret'
-          },
-          {
-            id: 2,
-            name: 'Door',
-            users: 'Antonette'
-          },
-          {
-            id: 11,
-            name: 'Bike',
-            users: 'Nicholas, Stanton'
-          }
-        ]
-      }
-    ]
-  };
-
-  constructor(private route: ActivatedRoute) { }
+  constructor(private service: LockManagerService) {
+    this.userData.name = JSON.parse(localStorage.getItem('currentUser')).nickname;
+  }
 
   ngOnInit() {
-    console.log(this.route.snapshot.data);
+    const { name } = this.userData;
+
+    Observable.forkJoin(
+      this.service.getUserKeys(name),
+      this.service.getUserLocks(name)
+    ).subscribe(data => {
+      this.userData.keys = data[0];
+      this.userData.locks = data[1];
+    });
   }
 
   onLockDelete(lock) {
     this.currentLock = lock;
     this.modal.show();
+  }
+
+  onLockAdd(lock) {
+    this.service.addLock(
+        this.userData.name, lock.newData._id, lock.newData.description, lock.newData.trusted.split(' ')
+      )
+      .subscribe(_ => {
+        this.lockManager.addLock(lock);
+      });
   }
 
   onLockDeleteConfirm() {

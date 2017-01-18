@@ -38,7 +38,9 @@ export class LoginComponent implements OnInit {
 
   signUp() {
     this.loading = true;
-    this.authService.signUp(this.newModel.firstName, this.newModel.lastName, this.newModel.username, this.newModel.password)
+    this.authService.signUp(
+        this.newModel.firstName, this.newModel.lastName, this.newModel.email, this.newModel.username, this.newModel.password
+      )
       .subscribe(res => {
         if (res === true) {
           this.existingUser = true;

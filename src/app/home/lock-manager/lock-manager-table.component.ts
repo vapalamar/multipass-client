@@ -8,20 +8,30 @@ import { LocalDataSource } from 'ng2-smart-table';
 export class LockManagerTableComponent {
   @Output() rowSelect = new EventEmitter();
   @Output() deleteClick = new EventEmitter();
+  @Output() addClick = new EventEmitter();
 
   source: LocalDataSource;
 
   settings = {
     columns: {
-      name: {
-        title: 'For'
+      _id: {
+        title: 'ID'
       },
-      users: {
+      description: {
+        title: 'Description'
+      },
+      trusted: {
         title: 'Lock Users'
       }
     },
+    add: {
+      confirmCreate: true
+    },
     delete: {
       confirmDelete: true
+    },
+    actions: {
+      edit: false
     }
   };
 

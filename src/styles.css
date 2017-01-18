@@ -262,3 +262,6 @@ img { max-width: 100%; }
 
 }
 
+.big-font * {
+  font-size: inherit !important;
+}

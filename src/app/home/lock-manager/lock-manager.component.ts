@@ -6,8 +6,11 @@ import { LockManagerTableComponent } from './lock-manager-table.component';
   templateUrl: './lock-manager.component.html'
 })
 export class LockManagerComponent implements AfterViewInit {
-  @Input() data;
+  @Input() set data(value) {
+    this.locksTable.data = value;
+  };
   @Output() lockDelete = new EventEmitter();
+  @Output() lockAdd = new EventEmitter();
   @ViewChild(LockManagerTableComponent) locksTable: LockManagerTableComponent;
 
   currentLock;
@@ -24,9 +27,19 @@ export class LockManagerComponent implements AfterViewInit {
       .subscribe(lock => {
         this.lockDelete.emit(lock);
       });
+
+    this.locksTable.addClick
+      .subscribe(lock => {
+        this.lockAdd.emit(lock);
+      });
   }
 
   deleteLock(lock) {
     this.locksTable.source.remove(lock.data);
+  }
+
+  addLock(lock) {
+    lock.confirm.resolve(lock.newData);
+    window.location.reload();
   }
 }

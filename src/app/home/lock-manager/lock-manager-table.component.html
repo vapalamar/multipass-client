@@ -2,5 +2,6 @@
                 [settings]="settings"
                 [source]="source"
                 (userRowSelect)="rowSelect.emit($event)"
-                (deleteConfirm)="deleteClick.emit($event)">
+                (deleteConfirm)="deleteClick.emit($event)"
+                (createConfirm)="addClick.emit($event)">
 </ng2-smart-table>
